@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 
+
 export default function Index() {
 
     return (
@@ -8,7 +9,7 @@ export default function Index() {
                 <div className=" " data-dsn="video">
                     <video className="bg-image cover-bg dsn-video" preload="none" autoPlay="" loop="" muted=""
                         playsInline="" poster= "/static/assets/image/1.jpeg">
-                        <source src="/static/uploads/ar_mongolia.mp4" type="video/mp4" />
+                        <source src="/static/assets/image/ar_mongolia.mp4" type="video/mp4" />
                     </video>
                 </div>
             </div>

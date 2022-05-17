@@ -138,7 +138,6 @@ export default function Index() {
         </div>
       </div>
       <div class="scroll-to-top">
-        <img src="assets/img/scroll_top.svg" alt=""/>
           <div class="box-number v-middle">
           </div>
       </div>
