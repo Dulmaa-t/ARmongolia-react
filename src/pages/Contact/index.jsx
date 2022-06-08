@@ -1,6 +1,45 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+
+import axios from 'axios';
 
 export default function Contact() {
+
+    /** Формын датануудыг хадгалах state */
+    const [ formData, setFormData ] = useState({})
+
+    /** Формын дагуу майл явуулах */
+    const onSubmit = (e) =>
+    {
+        e.preventDefault()
+
+        axios.post(
+            process.env.REACT_APP_SERVER_URL + "/send-email/",
+            {
+                name: formData.name,
+                email: formData.email,
+                feedback: formData.feedback,
+            }
+        ).then(
+            () =>
+            {
+                alert("Амжилттай илгээлээ")
+            }
+        )
+        .catch(
+            () =>
+            {
+                alert("Хүсэлт илгээхэд алдаа гарлаа")
+            }
+        )
+    }
+
+    /** input ийн өөрчлөлтийг state -д хадгалах */
+    const handleChange = (event, field) =>
+    {
+        const value = event.target.value
+        setFormData(prev => ({ ...prev, [field]: value }))
+    }
+
     return (
         <>
             <div className="contact-btn">
@@ -18,15 +57,16 @@ export default function Contact() {
                         <div className="col-lg-6">
                             <div className="form-box d-flex flex-column">
                                 <h4 className="title-block p-relative mb-30 text-uppercase border-section-bottom"
-                                    style={{ fontSize: "20px" }}>Танд туслахдаа үргэлж таатай байх болно.</h4>
-                                <form id="ar-contact-form" className="form w-100" method="post" action="/"
+                                    style={{ fontSize: "20px" }}>Танд туслахдаа үргэлж таатай байх болно.
+                                </h4>
+                                <form id="ar-contact-form" className="form w-100" onSubmit={onSubmit}
                                     data-toggle="validator" noValidate={true}>
                                     <div className="messages"></div>
                                     <div className="input__wrap controls">
                                         <div className="form-group">
                                             <div className="entry-box">
                                                 <label>Таны нэр *</label>
-                                                <input id="name" type="text" name="name" placeholder="Нэрээ бичнэ үү"
+                                                <input id="name" onChange={(e) => handleChange(e, "name")} type="text" name="name" placeholder="Нэрээ бичнэ үү"
                                                     required="required" data-error="Нэрээ бичих шаардлагатай." />
                                             </div>
                                             <div className="help-block with-errors"></div>
@@ -35,7 +75,7 @@ export default function Contact() {
                                         <div className="form-group">
                                             <div className="entry-box">
                                                 <label>Таны цахим шуудан *</label>
-                                                <input id="email" type="email" name="email"
+                                                <input id="email" type="email" name="email" onChange={(e) => handleChange(e, "email")}
                                                     placeholder="Цахим шуудан хаягаа бичнэ үү" required="required"
                                                     data-error="Цахим шуудан хаяг бичих шаардлагатай." />
                                             </div>
@@ -45,7 +85,7 @@ export default function Contact() {
                                         <div className="form-group">
                                             <div className="entry-box">
                                                 <label>Тайлбар</label>
-                                                <textarea id="feedback" className="form-control" name="feedback"
+                                                <textarea id="feedback" className="form-control" name="feedback" onChange={(e) => handleChange(e, "feedback")}
                                                     placeholder="Асуух зүйлээ бичнэ үү" required="required"
                                                     data-error="Бидэнд мессеж үлдээгээрэй."></textarea>
                                             </div>
@@ -54,7 +94,7 @@ export default function Contact() {
 
                                         <div className="text-right">
                                             <div className="image-zoom w-auto d-inline-block move-circle">
-                                                <input type="submit" value="Илгээх" className="v-light disabled" />
+                                                <input type="submit" id='submit' value="Илгээх" className="v-light disabled" />
                                                     <div className="icon-circle"></div>
                                             </div>
                                         </div>
